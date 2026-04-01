@@ -11,8 +11,6 @@ jobs:
   test:
     name: Test on ${{ matrix.browser }}
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.51.0-noble
     strategy:
       fail-fast: false
       matrix:
@@ -22,10 +20,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      # - name: Set up Python
-      #   uses: actions/setup-python@v6
-      #   with:
-      #     python-version: "3.12"
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
 
       - name: Install dependencies
         run: |
