@@ -3,8 +3,8 @@
 ### 1. Sklonuj repozytorium
 
 ```bash
-git clone https://github.com/DominikLesniowski/ING_Cookies_Test.git
-cd ING_Cookies_Test
+git clone https://github.com/DominikLesniowski/Cookies_ING.git
+cd Cookies_ING
 ```
 
 ### 2. Utwórz i aktywuj wirtualne środowisko
