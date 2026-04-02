@@ -1,32 +1,6 @@
 import pytest
 from playwright.sync_api import sync_playwright
-from pages.cookie_page.ing_cookie_page import IngCookiePage
-
-
-
-@pytest.fixture()
-def browser_context(target_browser):
-
-    with sync_playwright() as p:
-        browser_type = {
-            "chromium": p.chromium,
-            "firefox": p.firefox,
-            "webkit": p.webkit,
-        }[target_browser]
-
-        browser = browser_type.launch(headless=True)
-        context = browser.new_context()
-        page = context.new_page()
-
-        yield page, context
-
-        context.close()
-        browser.close()
-
-
-@pytest.fixture()
-def cookie_page(page):
-    return IngCookiePage(page)
+from tests.conftest import IngCookiePage
 
 
 def test_ing_analytics_cookie_is_saved(cookie_page, context, browser_name):
@@ -42,29 +16,30 @@ def test_ing_analytics_cookie_is_saved(cookie_page, context, browser_name):
 
     cookies = cookie_page.get_all_cookies(context)
 
-    session_cookie_policyGDPR_details = cookie_page.get_cookie_by_name(
+    session_cookie_policy_gdpr_details = cookie_page.get_cookie_by_name(
         cookies, "cookiePolicyGDPR__details"
     )
-    session_cookie_policyGDPR = cookie_page.get_cookie_by_name(
+    session_cookie_policy_gdpr = cookie_page.get_cookie_by_name(
         cookies, "cookiePolicyGDPR"
     )
 
-    assert session_cookie_policyGDPR_details is not None, (
+    assert session_cookie_policy_gdpr_details is not None, (
         f"[{browser_name}] Cookie 'cookiePolicyGDPR__details' nie zostało zapisane"
     )
-    assert session_cookie_policyGDPR is not None, (
+    assert session_cookie_policy_gdpr is not None, (
         f"[{browser_name}] Cookie 'cookiePolicyGDPR' nie zostało zapisane"
     )
-    assert session_cookie_policyGDPR_details["name"] == "cookiePolicyGDPR__details", (
+    assert session_cookie_policy_gdpr_details["name"] == "cookiePolicyGDPR__details", (
         f"[{browser_name}] Cookie name: 'cookiePolicyGDPR__details' ma niepoprawną wartość!"
     )
-    assert session_cookie_policyGDPR["name"] == "cookiePolicyGDPR", (
+    assert session_cookie_policy_gdpr["name"] == "cookiePolicyGDPR", (
         f"[{browser_name}] Cookie name: 'cookiePolicyGDPR' ma niepoprawną wartość!"
     )
-    assert session_cookie_policyGDPR["value"] == "3", (
+    assert session_cookie_policy_gdpr["value"] == "3", (
         f"[{browser_name}] Cookie 'cookiePolicyGDPR' powinno mieć wartość '3', "
-        f"a ma '{session_cookie_policyGDPR['value']}'"
+        f"a ma '{session_cookie_policy_gdpr['value']}'"
     )
-    assert "cookieCreateTimestamp" in session_cookie_policyGDPR_details["value"], (
+    assert "cookieCreateTimestamp" in session_cookie_policy_gdpr_details["value"], (
         f"[{browser_name}] Cookie 'cookiePolicyGDPR__details' nie zawiera 'cookieCreateTimestamp'"
     )
+

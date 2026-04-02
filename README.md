@@ -46,7 +46,7 @@ Flaga `-n 3` uruchamia 3 workerów - po jednym na każdą przeglądarkę.
 **Na wybranej przeglądarce:**
 ```bash
 pytest  --browser chromium  -v
-pytest  --browser Firefox -v
+pytest  --browser firefox -v
 pytest  --browser webkit -v
 ```
 
@@ -64,12 +64,10 @@ Możesz też uruchomić pipeline ręcznie przez zakładkę **Actions → Run wor
 
 ## Znane ograniczenie - blokada automatyzacji w CI/CD
 
-***Testy działają poprawnie lokalnie (zweryfikowane na macOS, Chromium/Firefox/WebKit).***
+Testy działają poprawnie lokalnie (zweryfikowane na macOS, Chromium/Firefox/WebKit).
 
 W środowisku CI/CD (GitHub Actions, self-hosted runner) strona ing.pl blokuje dostęp na dwóch poziomach:
 
-**1. Blokada po IP** - serwery AWS są blokowane przez hCaptcha z komunikatem _"You may be abroad and our security system has been activated"_. Self-hosted runner na lokalnym komputerze omija blokadę IP, ale napotyka drugi poziom zabezpieczeń.
+1. Blokada po IP - serwery AWS są blokowane przez hCaptcha z komunikatem _"You may be abroad and our security system has been activated"_. Self-hosted runner na lokalnym komputerze omija blokadę IP, ale napotyka drugi poziom zabezpieczeń. 
 
-**2. Fingerprinting przeglądarki** - ING stosuje zaawansowane techniki wykrywania automatyzacji (analiza `navigator.webdriver`, anomalie w zachowaniu myszy, timing zdarzeń, entropia canvas fingerprint). Playwright w trybie headless jest wykrywany i blokowany nawet na polskim IP.
-
-Jest to świadome zabezpieczenie stosowane przez instytucje finansowe - nie błąd w implementacji testu. Selektory, logika i asercje działają prawidłowo gdy strona jest dostępna.
+2. Fingerprinting przeglądarki - ING stosuje zaawansowane techniki wykrywania automatyzacji (analiza `navigator.webdriver`, anomalie w zachowaniu myszy, timing zdarzeń, entropia canvas fingerprint). Playwright w trybie headless jest wykrywany i blokowany nawet na polskim IP. []
